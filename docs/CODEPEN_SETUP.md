@@ -1,5 +1,9 @@
 # CodePen Setup for Z-Fold Gift Card
 
+**[🎮 Live Demo](https://codepen.io/richardevcom/pen/wBGKzQN)**
+
+---
+
 ## External Scripts/Pens to Add
 
 In CodePen Settings → JS → Add External Scripts/Pens, add:
@@ -80,7 +84,7 @@ body {
       width: 40px;
       height: 40px;
       border: 3px solid rgba(0, 0, 0, 0.1);
-      border-top-color: rgba(0, 0, 0, 0.6);
+      border-top-color: #EA5B10;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
@@ -98,13 +102,12 @@ body {
 
 ## JavaScript (TypeScript)
 
-**IMPORTANT:** You must host the SVG files externally since CodePen free doesn't support assets.
-Options:
-1. **GitHub** (recommended): Push your SVG files to a public GitHub repo and use raw.githubusercontent.com URLs
-2. **Imgur**: Upload as images and use direct links
-3. **Data URI**: Convert SVGs to data URIs at https://dopiaza.org/tools/datauri/ (may make code very long)
+**Note:** SVG files are hosted on GitHub at `richardevcom/threejs-z-fold-gift-card`.
 
-Replace `YOUR_USERNAME` and `YOUR_REPO` in the code below with your actual GitHub info
+If you want to use your own images:
+1. **GitHub**: Push SVG files to a public repo and use raw.githubusercontent.com URLs
+2. **Imgur**: Upload as images and use direct links
+3. **Data URI**: Convert SVGs to data URIs at https://dopiaza.org/tools/datauri/
 
 ```typescript
 import {
@@ -112,17 +115,16 @@ import {
   WebGLRenderer,
   PerspectiveCamera,
   Group,
-  PlaneGeometry,
+  BoxGeometry,
   Mesh,
   MeshStandardMaterial,
   Color,
-  FrontSide,
-  BackSide,
   TextureLoader,
   Raycaster,
   Vector2,
   SRGBColorSpace,
   NeutralToneMapping,
+  PCFSoftShadowMap,
   AmbientLight,
   RectAreaLight
 } from 'https://cdn.jsdelivr.net/npm/three@0.181.1/build/three.module.min.js';
@@ -325,11 +327,9 @@ class ZFoldCard {
     this.middlePanel = new Group();
     this.bottomPanelGroup = new Group();
 
-    // Note: SVG files must be hosted externally (GitHub Pages, Imgur, CloudFlare R2, etc.)
-    // or converted to data URIs using a converter like: https://dopiaza.org/tools/datauri/
-    // Replace these placeholder URLs with your actual image URLs
+    // SVG files hosted on GitHub
     const topTexture = textureLoader.load(
-      'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/src/svg/gift-card-top.svg',
+      'https://raw.githubusercontent.com/richardevcom/threejs-z-fold-gift-card/main/src/svg/gift-card-top.svg',
       () => this.onTextureLoad()
     );
     topTexture.colorSpace = SRGBColorSpace;
@@ -355,7 +355,7 @@ class ZFoldCard {
     this.topPanelGroup.add(topMesh);
 
     const middleTexture = textureLoader.load(
-      'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/src/svg/gift-card-middle.svg',
+      'https://raw.githubusercontent.com/richardevcom/threejs-z-fold-gift-card/main/src/svg/gift-card-middle.svg',
       () => this.onTextureLoad()
     );
     middleTexture.colorSpace = SRGBColorSpace;
@@ -380,7 +380,7 @@ class ZFoldCard {
     this.middlePanel.add(middleMesh);
 
     const bottomTexture = textureLoader.load(
-      'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/src/svg/gift-card-bottom.svg',
+      'https://raw.githubusercontent.com/richardevcom/threejs-z-fold-gift-card/main/src/svg/gift-card-bottom.svg',
       () => this.onTextureLoad()
     );
     bottomTexture.colorSpace = SRGBColorSpace;
@@ -656,39 +656,33 @@ if (document.readyState === 'loading') {
 } else {
   new ZFoldCard(config);
 }
-1. **Host your SVG files** (see options below)
-2. **Create New Pen on CodePen**
-3. **Settings → JS:**
+```
+
+1. **Create New Pen on CodePen**
+2. **Settings → JS:**
    - Preprocessor: **TypeScript**
    - External Scripts: `https://cdn.jsdelivr.net/npm/three@0.181.1/build/three.module.min.js`
-4. **Replace URLs** in JavaScript section:
-   - For GitHub: Replace `YOUR_USERNAME/YOUR_REPO` with your actual repo
-   - For others: Replace entire URLs with your hosted file URLs
-5. **Paste HTML, CSS, JS** from above
-6. **Save & Share** 🎉
+3. **Paste HTML, CSS, JS** from above (SVG URLs already configured)
+4. **Save & Share** 🎉
 
-### Hosting Options (Free Accounts):
+### Using Your Own Images:
 
-**GitHub (Recommended):**
+**GitHub:**
 ```bash
-# 1. Create public repo or use existing
-# 2. Push your SVGs
+# 1. Push your SVGs to a public repo
 git add src/svg/*.svg
 git commit -m "Add gift card SVGs"
 git push
 
-# 3. Get raw URLs (right-click "Raw" button on GitHub file viewer)
-https://raw.githubusercontent.com/USERNAME/REPO/main/src/svg/gift-card-top.svg
-```
+# 2. Get raw URLs (right-click "Raw" button on GitHub)
+https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/src/svg/gift-card-top.svg
+
 
 **Imgur:**
-- Upload SVGs as images
-- Get direct link (ends in .svg)
+- Upload SVGs as images, get direct links
 
-**Data URI Converter:**
-- Visit https://dopiaza.org/tools/datauri/
-- Paste SVG code
-- Copy data URI (warning: makes code very long!)
+**Data URI:**
+- Convert at https://dopiaza.org/tools/datauri/ (makes code longer)
    - Preprocessor: **TypeScript**
    - External Scripts: `https://cdn.jsdelivr.net/npm/three@0.181.1/build/three.module.min.js`
 3. **Upload SVG files** (CodePen Assets or use external CDN)
